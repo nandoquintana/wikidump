@@ -31,6 +31,7 @@ prefixes = [
 # TODO: Complete this list
 category_identifier =\
   { 'en' : 'Category'
+  , 'es' : 'Categoría'
   , 'fr' : 'Catégorie'
   , 'de' : 'Kategorie'
   , 'ja' : 'Category'
