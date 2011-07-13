@@ -1,6 +1,7 @@
 import sys
 import logging
 import optparse
+import csv
 
 logger = logging.getLogger('wikidump')
 
@@ -18,15 +19,24 @@ def main():
   # Dump category distribution
   parser = optparse.OptionParser()
   parser.add_option("-l", "--language", dest="lang", help="Relevant language prefix")
+  parser.add_option("-o", "--output", dest="output", help="Output format: csv or yaml")
   options, args = parser.parse_args(sys.argv[1:])
 
   dump = load_dumps([options.lang], build_index=True)[options.lang]
   cats = dump.categories
   get_page = dump.get_page_by_index
 
-  for c in sorted(cats, key=lambda x:len(cats[x]), reverse=True):
-    print "%d\t%s" % (len(cats[c]), c)
-    for a in cats[c]:
-      print "\t%s" %( get_page(a).title )
+  if options.output == 'csv':
+    writer = csv.writer(sys.stdout,quoting=csv.QUOTE_ALL)
+    for c in sorted(cats, key=lambda x:len(cats[x]), reverse=True):
+      for a in cats[c]:
+        writer.writerow((c, get_page(a).title))
+  
+  else:
+    for c in sorted(cats, key=lambda x:len(cats[x]), reverse=True):
+      print "%s:" % (c)
+      print "# %d articles" % (len(cats[c]))
+      for a in cats[c]:
+        print "- %s" %( get_page(a).title )
 
 main()
