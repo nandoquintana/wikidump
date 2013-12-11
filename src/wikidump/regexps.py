@@ -3,7 +3,7 @@ import re
 import lang
 
 # Match the name of a dumpfile
-dumpfile_name = re.compile(r'(?P<prefix>.*?)wiki-(?P<date>\d{8})-pages-articles.xml')
+dumpfile_name = re.compile(r'(?P<prefix>.*?)wiki-(?P<date>[^-]+)-pages-articles.xml')
 
 intrawiki_link = re.compile(r"\[\[(?P<target>.*?\|)?(?P<anchor>.*?)\]\]")
 
